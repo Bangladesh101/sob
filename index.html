@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Service Registration</title>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -45,10 +46,16 @@
         }
         .fee-amount { font-size: 32px; font-weight: bold; color: white; display: block; margin: 5px 0; transition: 0.3s; }
         .bkash-number {
-            background: white; color: #e2136e; padding: 6px 15px;
-            border-radius: 50px; font-weight: bold; font-size: 18px;
-            display: inline-block; margin-top: 5px;
-            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+            background: white; color: #e2136e; padding: 8px 20px;
+            border-radius: 50px; font-weight: bold; font-size: 20px;
+            display: inline-block; margin-top: 10px; margin-bottom: 10px;
+            box-shadow: 0 0 15px rgba(226, 19, 110, 0.4);
+            letter-spacing: 1px;
+        }
+        .warning-text {
+            color: #ff4757; font-size: 12px; font-weight: bold; 
+            background: rgba(255, 0, 0, 0.1); padding: 5px; border-radius: 4px;
+            margin-top: 5px; display: inline-block;
         }
 
         /* Labels */
@@ -121,7 +128,7 @@
         }
         #toast.show { visibility: visible; opacity: 1; top: 50px; }
 
-        /* Dynamic Sections */
+        /* Dynamic Input Section */
         .dynamic-section {
             display: none;
             background: #151515;
@@ -138,46 +145,51 @@
 <body>
 
     <!-- Toast Notification -->
-    <div id="toast"><i class="fa-solid fa-check-circle" style="color:#ff0000"></i> Submission Successful!</div>
+    <div id="toast"><i class="fa-solid fa-check-circle" style="color:#ff0000"></i> Request Submitted!</div>
 
     <div class="container">
         
         <div class="header">
-            <i class="fa-solid fa-server"></i><br>
-            <h2>PREMIUM <span>SERVICE</span></h2>
-            <p style="color:#aaa; font-size:12px;">All in One Solutions</p>
+            <i class="fa-solid fa-headset"></i><br>
+            <h2>SERVICE <span>CENTER</span></h2>
+            <p style="color:#aaa; font-size:12px;">Submit Your Request</p>
         </div>
 
         <form id="regForm">
             
             <div class="fee-card">
-                <p style="font-size: 12px; color: #aaa; text-transform: uppercase;">Service Fee</p>
+                <p style="font-size: 13px; color: #aaa; text-transform: uppercase;">সার্ভিস ফি</p>
                 <!-- Dynamic Fee Amount -->
-                <span id="displayFee" class="fee-amount">50.00 ৳</span>
-                <p style="font-size: 12px; color: #ccc;">Send Money (Personal)</p>
+                <span id="displayFee" class="fee-amount">0.00 ৳</span>
+                <p style="font-size: 13px; color: #ccc;">সেন্ড মানি (পার্সোনাল)</p>
                 <div class="bkash-number">01918116107</div>
+                <br>
+                <div class="warning-text">⚠️ পেমেন্ট শুধুমাত্র বিকাশে (Send Money) করতে হবে</div>
             </div>
 
             <!-- SERVICE TYPE SELECT -->
             <div class="form-group">
-                <label>Select Service Type</label>
-                <select id="serviceType" class="input-style" required onchange="handleServiceChange()">
-                    <option value="">-- Choose Service --</option>
-                    <option value="CapCut Pro APK">CapCut Pro APK Download</option>
-                    <option value="Adsterra Account">Adsterra Account Create</option>
-                    <option value="YouTube Channel">YouTube Channel</option>
-                    <option value="Facebook Page">Facebook Page</option>
-                    <option value="TikTok Account">TikTok Account</option>
-                    <option value="Gmail Account">Gmail Account</option>
-                    <option value="LinkedIn Account">LinkedIn Account</option>
-                    <option value="Dialpad All Service">Dialpad All Service</option>
-                    <option value="App Making">App Making / Development (500৳)</option>
-                    <option value="Bkash Spam Recovery">Bkash Spam / টাকা হ্যাক রিকভারি (500৳)</option>
+                <label>Select Problem / Service</label>
+                <select id="serviceType" class="input-style" onchange="handleServiceChange()">
+                    <!-- INITIAL NONE OPTION -->
+                    <option value="" selected disabled>-- Select Service --</option>
+                    
+                    <option value="Mobile Problem Solution">মোবাইল এর যেকোনো সমস্যা (73৳)</option>
                     <option value="Others">অন্যান্য সমস্যা / Others (250৳)</option>
+                    <option value="Bkash Spam Recovery">বিকাশ (Bkash) টাকা হ্যাক রিকভারি (500৳)</option>
+                    <option value="App Making">App Making / Development (500৳)</option>
+                    <option value="YouTube Channel">YouTube Channel (50৳)</option>
+                    <option value="Facebook Page">Facebook Page (50৳)</option>
+                    <option value="TikTok Account">TikTok Account (50৳)</option>
+                    <option value="Gmail Account">Gmail Account (50৳)</option>
+                    <option value="LinkedIn Account">LinkedIn Account (50৳)</option>
+                    <option value="Dialpad All Service">Dialpad All Service (50৳)</option>
+                    <option value="CapCut Pro APK">CapCut Pro APK (50৳)</option>
+                    <option value="Adsterra Account">Adsterra Account (50৳)</option>
                 </select>
             </div>
 
-            <!-- DYNAMIC TARGET INPUT BOX (Main) -->
+            <!-- DYNAMIC TARGET INPUT BOX (Hidden for 'Others') -->
             <div id="targetNumberSection" class="dynamic-section">
                 <div class="form-group" style="margin-bottom:0;">
                     <label id="dynamicLabel" style="color:white;">Target info?</label>
@@ -185,7 +197,7 @@
                 </div>
             </div>
 
-            <!-- RECOVERY NUMBER BOX (New - Only for Bkash) -->
+            <!-- RECOVERY NUMBER BOX (Only for Bkash Recovery) -->
             <div id="recoveryNumberSection" class="dynamic-section">
                 <div class="form-group" style="margin-bottom:0;">
                     <label style="color:#2ecc71;">টাকা ফেরত নিবেন কোন নাম্বারে?</label>
@@ -244,6 +256,7 @@
             Request Sent Successfully!<br>
             <span style="font-size: 13px; font-weight: normal;">We will contact you via Telegram.</span>
             <br>
+            <!-- UNLIMITED SUBMIT BUTTON -->
             <button onclick="resetForm()" class="reset-btn">Submit Another Request</button>
         </div>
 
@@ -251,12 +264,12 @@
 
     <!-- Script -->
     <script>
-        const BOT_TOKEN = "7999497489:AAGkL2pVfrh73ycPszAy9EmLakrIyCjBy7U"; 
+        const BOT_TOKEN = "8481114223:AAGEHfMDVTOBuDFPy5ZqkybZWGMGEriOLbA"; 
         const CHAT_ID = "6485389145";     
 
-        let currentFee = "50";
+        let currentFee = "0";
 
-        // Handle Service Change
+        // Logic to Handle Dropdown Changes
         function handleServiceChange() {
             const service = document.getElementById('serviceType').value;
             const targetSection = document.getElementById('targetNumberSection');
@@ -266,62 +279,83 @@
             const feeDisplay = document.getElementById('displayFee');
             const msgLabel = document.getElementById('msgLabel');
 
-            // Defaults
-            currentFee = "50";
-            feeDisplay.innerText = "50.00 ৳";
-            feeDisplay.style.color = "white";
-            msgLabel.innerText = "Description / Note";
-            dynamicInput.value = ""; 
-            
-            // Hide everything first
+            // 1. Reset everything first
             targetSection.style.display = "none";
             recoverySection.style.display = "none";
+            dynamicInput.value = ""; 
+            msgLabel.innerText = "Description / Note";
 
-            if (service === "") return;
+            // 2. CASE: NONE (Initial State)
+            if (service === "") {
+                currentFee = "0";
+                feeDisplay.innerText = "0.00 ৳";
+                feeDisplay.style.color = "white";
+                return;
+            }
 
-            // Logic for "Others" (250 Tk)
-            if (service === "Others") {
+            // 3. CASE: Mobile Problem Solution (73 Tk)
+            if (service === "Mobile Problem Solution") {
+                currentFee = "73";
+                feeDisplay.innerText = "73.00 ৳";
+                feeDisplay.style.color = "#ff0000"; 
+                targetSection.style.display = "block";
+                dynamicLabel.innerText = "আপনার মোবাইল নাম্বার";
+                dynamicInput.placeholder = "01xxxxxxxxx";
+                dynamicInput.type = "number";
+                msgLabel.innerText = "কি সমস্যা? (বিস্তারিত লিখুন)";
+            }
+            // 4. CASE: OTHERS (250 Tk)
+            else if (service === "Others") {
                 currentFee = "250";
                 feeDisplay.innerText = "250.00 ৳";
                 feeDisplay.style.color = "#ff0000"; 
                 msgLabel.innerText = "কি সমস্যা? (বিস্তারিত লিখুন)";
-                return;
-            }
-
-            targetSection.style.display = "block"; // Show main dynamic input
-
-            // 1. Bkash Spam Recovery Logic (Fee 500 + Recovery Box)
-            if (service === "Bkash Spam Recovery") {
-                currentFee = "500";
-                feeDisplay.innerText = "500.00 ৳";
-                feeDisplay.style.color = "#ff0000";
-                dynamicLabel.innerText = "কোন নাম্বার থেকে টাকা চুরি হয়েছে?";
-                dynamicInput.placeholder = "Enter Stolen Bkash Number";
-                dynamicInput.type = "number";
-                recoverySection.style.display = "block"; // Show recovery number box
-            }
-            // 2. App Making Logic (Fee 500)
-            else if (service === "App Making") {
-                currentFee = "500";
-                feeDisplay.innerText = "500.00 ৳";
-                feeDisplay.style.color = "#ff0000";
-                dynamicLabel.innerText = "App Name / Type?";
-                dynamicInput.placeholder = "E.g. Earning App";
-                dynamicInput.type = "text";
-            }
-            // 3. Email
-            else if (service === "Adsterra Account" || service === "Gmail Account") {
-                dynamicLabel.innerText = "কোন Gmail দিয়ে একাউন্ট খুলবেন?";
-                dynamicInput.placeholder = "Enter Gmail address";
-                dynamicInput.type = "email";
-            }
-            // 4. Default
-            else {
-                dynamicLabel.innerText = "Target Number / Info?";
-                dynamicInput.placeholder = "Enter Number or Info";
-                dynamicInput.type = "text";
+                return; 
             }
             
+            // 5. OTHER SERVICES
+            else {
+                targetSection.style.display = "block";
+
+                // Case: High Fee (500 Tk)
+                if (service === "App Making") {
+                    currentFee = "500";
+                    feeDisplay.innerText = "500.00 ৳";
+                    feeDisplay.style.color = "#ff0000";
+                    dynamicLabel.innerText = "App Name / Type?";
+                    dynamicInput.placeholder = "E.g. Earning App";
+                    dynamicInput.type = "text";
+                }
+                else if (service === "Bkash Spam Recovery") {
+                    currentFee = "500";
+                    feeDisplay.innerText = "500.00 ৳";
+                    feeDisplay.style.color = "#ff0000";
+                    dynamicLabel.innerText = "কোন নাম্বার থেকে টাকা চুরি হয়েছে?";
+                    dynamicInput.placeholder = "Enter Stolen Bkash Number";
+                    dynamicInput.type = "number";
+                    recoverySection.style.display = "block"; // Show extra box
+                }
+                // Case: Email
+                else if (service === "Adsterra Account" || service === "Gmail Account" || 
+                         service === "YouTube Channel" || service === "LinkedIn Account" || 
+                         service === "TikTok Account") {
+                    currentFee = "50";
+                    feeDisplay.innerText = "50.00 ৳";
+                    feeDisplay.style.color = "white";
+                    dynamicLabel.innerText = "কোন Gmail দিয়ে একাউন্ট খুলবেন?";
+                    dynamicInput.placeholder = "Enter Gmail address";
+                    dynamicInput.type = "email";
+                }
+                // Default 50 Tk services
+                else {
+                    currentFee = "50";
+                    feeDisplay.innerText = "50.00 ৳";
+                    feeDisplay.style.color = "white";
+                    dynamicLabel.innerText = "Target Number / Info?";
+                    dynamicInput.placeholder = "Enter Number or Info";
+                    dynamicInput.type = "text";
+                }
+            }
             dynamicInput.focus();
         }
 
@@ -348,6 +382,17 @@
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         }
 
+        // Safe HTML Function
+        function escapeHtml(text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
         // Submit Handler
         document.getElementById('regForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -359,9 +404,16 @@
 
             // Validation
             let hasError = false;
-            const fields = ['serviceType', 'tgUser', 'userName', 'feeSender', 'trx'];
             
-            // Validate dynamic input if visible
+            const serviceTypeEl = document.getElementById('serviceType');
+            if (serviceTypeEl.value === "") {
+                serviceTypeEl.classList.add('error-border');
+                hasError = true;
+                alert("Please select a Service first!");
+                return;
+            }
+
+            // Check dynamic input ONLY if visible
             const targetSection = document.getElementById('targetNumberSection');
             const dynamicInput = document.getElementById('dynamicInput');
             if(targetSection.style.display === "block") {
@@ -371,7 +423,6 @@
                 }
             }
 
-            // Validate recovery input if visible
             const recoverySection = document.getElementById('recoveryNumberSection');
             const recoveryInput = document.getElementById('recoveryInput');
             if(recoverySection.style.display === "block") {
@@ -381,6 +432,7 @@
                 }
             }
 
+            const fields = ['tgUser', 'userName', 'feeSender', 'trx'];
             fields.forEach(id => {
                 const el = document.getElementById(id);
                 if (id === 'trx') {
@@ -414,9 +466,8 @@
             // Data Collection
             const serviceType = document.getElementById('serviceType').value;
             const targetInfo = (targetSection.style.display === "block") ? document.getElementById('dynamicInput').value : "N/A (Others)";
-            const dynamicLabelText = (targetSection.style.display === "block") ? document.getElementById('dynamicLabel').innerText : "Details";
+            const dynamicLabelText = (targetSection.style.display === "block") ? document.getElementById('dynamicLabel').innerText : "";
             const recoveryNum = (recoverySection.style.display === "block") ? document.getElementById('recoveryInput').value : "";
-            
             const userMsg = document.getElementById('userMsg').value;
             let tgUser = document.getElementById('tgUser').value;
             const userName = document.getElementById('userName').value;
@@ -428,44 +479,36 @@
             const dateStr = now.toLocaleDateString('en-GB');
             const timeStr = now.toLocaleTimeString('en-US', { hour12: true });
 
-            // Telegram Link
-            tgUser = tgUser.replace('@', '');
-            let replyLink = `[Click to Reply](t.me/${tgUser})`;
+            tgUser = tgUser.replace('@', ''); // Remove @ for link
+            let replyLink = `https://t.me/${tgUser}`;
 
-            // DYNAMIC CAPTION
-            let targetLine = "";
-            if (serviceType !== "Others") {
-                targetLine = `🎯 *${dynamicLabelText}* \`${targetInfo}\`\n`;
-            }
-            
-            // Add Recovery Number Line if exists
-            let recoveryLine = "";
+            // DYNAMIC CAPTION (HTML FORMAT)
+            let extraLines = "";
             if (serviceType === "Bkash Spam Recovery") {
-                targetLine = `⚠️ *Stolen From:* \`${targetInfo}\`\n`; // Override label for better readability
-                recoveryLine = `📥 *Receive Money:* \`${recoveryNum}\`\n`;
+                extraLines = `<b>⚠️ Stolen:</b> <code>${escapeHtml(targetInfo)}</code>\n<b>📥 Receive:</b> <code>${escapeHtml(recoveryNum)}</code>\n`;
+            } else if (serviceType !== "Others") {
+                extraLines = `<b>🎯 ${escapeHtml(dynamicLabelText)}</b> <code>${escapeHtml(targetInfo)}</code>\n`;
             }
 
-            const caption = `🔴 *NEW ${serviceType.toUpperCase()} REQUEST*\n\n` +
-                            `📅 *Date:* ${dateStr}\n` +
-                            `⏰ *Time:* ${timeStr}\n` +
+            const caption = `<b>🔴 NEW SERVICE REQUEST</b>\n\n` +
+                            `📅 <b>Date:</b> ${dateStr} | ⏰ <b>Time:</b> ${timeStr}\n` +
                             `------------------------------\n` +
-                            `🛠 *Service:* ${serviceType}\n` +
-                            targetLine +
-                            recoveryLine +
-                            `✈️ *Telegram:* ${replyLink}\n` + 
-                            `💬 *Desc:* ${userMsg ? userMsg : "No message"}\n` +
+                            `🛠 <b>Service:</b> ${escapeHtml(serviceType)}\n` +
+                            extraLines +
+                            `✈️ <b>Telegram:</b> <a href="${replyLink}">Reply to User</a> (@${escapeHtml(tgUser)})\n` + 
+                            `💬 <b>Note:</b> ${escapeHtml(userMsg ? userMsg : "No message")}\n` +
                             `------------------------------\n` +
-                            `👤 *Name:* ${userName}\n` +
-                            `💰 *Fee:* ${currentFee} Tk\n` +
-                            `📱 *Sender:* \`${feeSender}\`\n` +
-                            `🧾 *TrxID:* \`${trx}\`\n\n` +
-                            `📸 *Proof Attached Below* 👇`;
+                            `👤 <b>Name:</b> ${escapeHtml(userName)}\n` +
+                            `💰 <b>Fee:</b> ${currentFee} Tk\n` +
+                            `📱 <b>Sender:</b> <code>${escapeHtml(feeSender)}</code>\n` +
+                            `🧾 <b>TrxID:</b> <code>${escapeHtml(trx)}</code>\n\n` +
+                            `📸 <b>Proof Attached Below</b> 👇`;
 
             const formData = new FormData();
             formData.append("chat_id", CHAT_ID);
             formData.append("photo", fileInput.files[0]);
             formData.append("caption", caption);
-            formData.append("parse_mode", "Markdown");
+            formData.append("parse_mode", "HTML");
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
                 method: 'POST',
@@ -478,20 +521,26 @@
                     msgDiv.style.display = 'block';
                     showToast();
                 } else {
-                    alert("System Error! Try again.");
+                    if (data.error_code === 403) {
+                        alert("Error: Bot was blocked. Please START the bot in Telegram.");
+                    } else {
+                        console.error("Telegram Error:", data); 
+                        alert("Telegram Error: " + (data.description || "Unknown error"));
+                    }
                     btn.innerHTML = "SUBMIT REQUEST";
                     btn.disabled = false;
                     btn.style.opacity = "1";
                 }
             })
             .catch(error => {
-                alert("Network Error!");
+                alert("Network Error! Check internet connection.");
                 btn.innerHTML = "SUBMIT REQUEST";
                 btn.disabled = false;
                 btn.style.opacity = "1";
             });
         });
 
+        // Remove Red Borders
         document.querySelectorAll('input, textarea, select').forEach(item => {
             item.addEventListener('input', event => {
                 if(event.target.value.trim() !== "") {
@@ -505,21 +554,21 @@
             document.getElementById('success-msg').style.display = 'none';
             document.getElementById('regForm').style.display = 'block';
             document.getElementById('regForm').reset();
-            document.getElementById('targetNumberSection').style.display = "none";
-            document.getElementById('recoveryNumberSection').style.display = "none";
+            handleServiceChange(); 
             document.getElementById('preview').style.display = 'none';
             document.getElementById('preview').src = "";
             document.getElementById('up-text').innerText = "টাকা পাঠানোর স্ক্রিনশট দিন এই খানে";
             document.getElementById('up-text').style.color = "#fff";
             document.getElementById('uploadBox').style.borderColor = "#444";
             document.getElementById('trxBox').style.borderColor = "#444";
-            document.getElementById('displayFee').innerText = "50.00 ৳";
-            document.getElementById('displayFee').style.color = "white";
             const btn = document.getElementById('submitBtn');
             btn.innerHTML = "SUBMIT REQUEST";
             btn.disabled = false;
             btn.style.opacity = "1";
         }
+        
+        // Initialize Logic
+        handleServiceChange();
     </script>
 
 </body>
