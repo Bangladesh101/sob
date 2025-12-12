@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Service Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ================= CSS ডিজাইন (Red/Black Theme) ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            background-color: #0f0f0f; 
+            color: white; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px; 
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border-top: 4px solid #ff0000; 
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        /* Header */
+        .header { text-align: center; margin-bottom: 25px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        .header h2 { color: white; font-size: 22px; letter-spacing: 1px; }
+        .header span { color: #ff0000; font-weight: bold; }
+        .header i { color: #ff0000; font-size: 30px; margin-bottom: 5px; }
+
+        /* Fee Card */
+        .fee-card {
+            background: linear-gradient(145deg, #2c0b0b, #1a0505);
+            border: 1px solid #ff0000;
+            padding: 20px; border-radius: 10px; margin-bottom: 25px; text-align: center;
+            transition: 0.3s;
+        }
+        .fee-amount { font-size: 32px; font-weight: bold; color: white; display: block; margin: 5px 0; transition: 0.3s; }
+        .bkash-number {
+            background: white; color: #e2136e; padding: 6px 15px;
+            border-radius: 50px; font-weight: bold; font-size: 18px;
+            display: inline-block; margin-top: 5px;
+            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        /* Labels */
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 8px; color: #ff0000; font-size: 13px; font-weight: 600; text-transform: uppercase; }
+
+        /* Inputs & Select */
+        .input-style {
+            width: 100%; padding: 14px; background: #0f0f0f; border: 1px solid #444; 
+            color: white; border-radius: 6px; outline: none; font-size: 15px; transition: 0.3s;
+        }
+        .input-style:focus { border-color: #ff0000; }
+        .error-border { border-color: #ff4757 !important; background: #2c0b0b; }
+        
+        textarea.input-style { resize: none; height: 80px; }
+
+        /* Custom Select Style */
+        select.input-style {
+            cursor: pointer;
+            background-color: #0f0f0f;
+        }
+
+        /* TrxID Style */
+        .trx-wrapper {
+            position: relative; background: #0f0f0f; border: 1px solid #444;
+            border-radius: 6px; display: flex; align-items: center; padding-left: 10px; transition: 0.3s;
+        }
+        .trx-wrapper:focus-within { border-color: #e2136e; box-shadow: 0 0 8px rgba(226, 19, 110, 0.3); }
+        .trx-label { color: #aaa; font-size: 14px; font-weight: bold; padding-right: 10px; border-right: 1px solid #444; }
+        .trx-input {
+            width: 100%; background: transparent; border: none; color: white;
+            padding: 14px; font-size: 16px; outline: none; text-transform: uppercase; letter-spacing: 1px; font-family: monospace; font-weight: bold;
+        }
+
+        /* Upload Box */
+        .upload-box {
+            border: 2px dashed #444; padding: 20px; text-align: center; 
+            cursor: pointer; border-radius: 8px; background: #111; transition: 0.3s;
+        }
+        .upload-box:hover { border-color: #ff0000; background: #1f0a0a; }
+        .preview-img { width: 100%; margin-top: 10px; border-radius: 8px; display: none; border: 1px solid #ff0000; }
+
+        /* Button */
+        .btn {
+            width: 100%; padding: 15px; background: #ff0000; color: white; 
+            border: none; border-radius: 6px; font-weight: bold; font-size: 16px; 
+            cursor: pointer; text-transform: uppercase; margin-top: 10px; letter-spacing: 1px;
+        }
+        .btn:hover { background: #cc0000; }
+        .btn:disabled { background: #555; cursor: not-allowed; }
+
+        /* Success Screen */
+        #success-msg {
+            display: none; background: #ff0000; color: white; padding: 25px; 
+            border-radius: 8px; margin-top: 20px; font-weight: bold; text-align: center;
+        }
+        .reset-btn {
+            background: transparent; border: 1px solid white; color: white;
+            padding: 10px 30px; border-radius: 4px; cursor: pointer; margin-top: 15px; font-size: 14px; font-weight: bold;
+            transition: 0.3s;
+        }
+        .reset-btn:hover { background: rgba(255,255,255,0.2); }
+
+        /* Toast */
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: #1a1a1a; color: #fff;
+            text-align: center; border-radius: 5px; padding: 16px; position: fixed; z-index: 1000;
+            right: 30px; top: 30px; font-size: 16px; border-left: 5px solid #ff0000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); opacity: 0; transition: opacity 0.5s, top 0.5s;
+        }
+        #toast.show { visibility: visible; opacity: 1; top: 50px; }
+
+        /* Dynamic Sections */
+        .dynamic-section {
+            display: none;
+            background: #151515;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #ff0000;
+            margin-bottom: 15px;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Toast Notification -->
+    <div id="toast"><i class="fa-solid fa-check-circle" style="color:#ff0000"></i> Submission Successful!</div>
+
+    <div class="container">
+        
+        <div class="header">
+            <i class="fa-solid fa-server"></i><br>
+            <h2>PREMIUM <span>SERVICE</span></h2>
+            <p style="color:#aaa; font-size:12px;">All in One Solutions</p>
+        </div>
+
+        <form id="regForm">
+            
+            <div class="fee-card">
+                <p style="font-size: 12px; color: #aaa; text-transform: uppercase;">Service Fee</p>
+                <!-- Dynamic Fee Amount -->
+                <span id="displayFee" class="fee-amount">50.00 ৳</span>
+                <p style="font-size: 12px; color: #ccc;">Send Money (Personal)</p>
+                <div class="bkash-number">01918116107</div>
+            </div>
+
+            <!-- SERVICE TYPE SELECT -->
+            <div class="form-group">
+                <label>Select Service Type</label>
+                <select id="serviceType" class="input-style" required onchange="handleServiceChange()">
+                    <option value="">-- Choose Service --</option>
+                    <option value="CapCut Pro APK">CapCut Pro APK Download</option>
+                    <option value="Adsterra Account">Adsterra Account Create</option>
+                    <option value="YouTube Channel">YouTube Channel</option>
+                    <option value="Facebook Page">Facebook Page</option>
+                    <option value="TikTok Account">TikTok Account</option>
+                    <option value="Gmail Account">Gmail Account</option>
+                    <option value="LinkedIn Account">LinkedIn Account</option>
+                    <option value="Dialpad All Service">Dialpad All Service</option>
+                    <option value="App Making">App Making / Development (500৳)</option>
+                    <option value="Bkash Spam Recovery">Bkash Spam / টাকা হ্যাক রিকভারি (500৳)</option>
+                    <option value="Others">অন্যান্য সমস্যা / Others (250৳)</option>
+                </select>
+            </div>
+
+            <!-- DYNAMIC TARGET INPUT BOX (Main) -->
+            <div id="targetNumberSection" class="dynamic-section">
+                <div class="form-group" style="margin-bottom:0;">
+                    <label id="dynamicLabel" style="color:white;">Target info?</label>
+                    <input type="text" id="dynamicInput" class="input-style" placeholder="Enter Info">
+                </div>
+            </div>
+
+            <!-- RECOVERY NUMBER BOX (New - Only for Bkash) -->
+            <div id="recoveryNumberSection" class="dynamic-section">
+                <div class="form-group" style="margin-bottom:0;">
+                    <label style="color:#2ecc71;">টাকা ফেরত নিবেন কোন নাম্বারে?</label>
+                    <input type="number" id="recoveryInput" class="input-style" placeholder="Enter Bkash/Nagad Number">
+                </div>
+            </div>
+
+            <!-- Message Box -->
+            <div class="form-group">
+                <label id="msgLabel">Description / Note</label>
+                <textarea id="userMsg" class="input-style" placeholder="বিস্তারিত লিখুন..."></textarea>
+            </div>
+
+            <!-- Telegram Username -->
+            <div class="form-group">
+                <label>Your Telegram Username (অবশ্যই দিন)</label>
+                <input type="text" id="tgUser" class="input-style" placeholder="@username" required>
+            </div>
+
+            <div class="form-group">
+                <label>Your Name / Email</label>
+                <input type="text" id="userName" class="input-style" placeholder="Enter Name or Email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Sender Number (যে নাম্বার থেকে পাঠিয়েছেন)</label>
+                <input type="number" id="feeSender" class="input-style" placeholder="017xxxxxxxx" required>
+            </div>
+
+            <div class="form-group">
+                <label style="color:#e2136e;">Transaction ID (TrxID)</label>
+                <div class="trx-wrapper" id="trxBox">
+                    <span class="trx-label">TrxID</span>
+                    <input type="text" id="trx" class="trx-input" placeholder="Tap to enter TrxID" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Screenshot Proof</label>
+                <input type="file" id="photo" accept="image/*" hidden required onchange="previewImage()">
+                <div class="upload-box" id="uploadBox" onclick="document.getElementById('photo').click()">
+                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 28px; color: #ff0000;"></i>
+                    <p id="up-text" style="font-size: 14px; color: #fff; margin-top: 8px; font-weight: bold;">
+                        টাকা পাঠানোর স্ক্রিনশট দিন এই খানে
+                    </p>
+                </div>
+                <img id="preview" class="preview-img">
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn">SUBMIT REQUEST</button>
+        </form>
+
+        <!-- Success Screen -->
+        <div id="success-msg">
+            <i class="fa-solid fa-circle-check" style="font-size: 50px; margin-bottom:15px; color:white;"></i><br>
+            Request Sent Successfully!<br>
+            <span style="font-size: 13px; font-weight: normal;">We will contact you via Telegram.</span>
+            <br>
+            <button onclick="resetForm()" class="reset-btn">Submit Another Request</button>
+        </div>
+
+    </div>
+
+    <!-- Script -->
+    <script>
+        const BOT_TOKEN = "7999497489:AAGkL2pVfrh73ycPszAy9EmLakrIyCjBy7U"; 
+        const CHAT_ID = "6485389145";     
+
+        let currentFee = "50";
+
+        // Handle Service Change
+        function handleServiceChange() {
+            const service = document.getElementById('serviceType').value;
+            const targetSection = document.getElementById('targetNumberSection');
+            const recoverySection = document.getElementById('recoveryNumberSection');
+            const dynamicLabel = document.getElementById('dynamicLabel');
+            const dynamicInput = document.getElementById('dynamicInput');
+            const feeDisplay = document.getElementById('displayFee');
+            const msgLabel = document.getElementById('msgLabel');
+
+            // Defaults
+            currentFee = "50";
+            feeDisplay.innerText = "50.00 ৳";
+            feeDisplay.style.color = "white";
+            msgLabel.innerText = "Description / Note";
+            dynamicInput.value = ""; 
+            
+            // Hide everything first
+            targetSection.style.display = "none";
+            recoverySection.style.display = "none";
+
+            if (service === "") return;
+
+            // Logic for "Others" (250 Tk)
+            if (service === "Others") {
+                currentFee = "250";
+                feeDisplay.innerText = "250.00 ৳";
+                feeDisplay.style.color = "#ff0000"; 
+                msgLabel.innerText = "কি সমস্যা? (বিস্তারিত লিখুন)";
+                return;
+            }
+
+            targetSection.style.display = "block"; // Show main dynamic input
+
+            // 1. Bkash Spam Recovery Logic (Fee 500 + Recovery Box)
+            if (service === "Bkash Spam Recovery") {
+                currentFee = "500";
+                feeDisplay.innerText = "500.00 ৳";
+                feeDisplay.style.color = "#ff0000";
+                dynamicLabel.innerText = "কোন নাম্বার থেকে টাকা চুরি হয়েছে?";
+                dynamicInput.placeholder = "Enter Stolen Bkash Number";
+                dynamicInput.type = "number";
+                recoverySection.style.display = "block"; // Show recovery number box
+            }
+            // 2. App Making Logic (Fee 500)
+            else if (service === "App Making") {
+                currentFee = "500";
+                feeDisplay.innerText = "500.00 ৳";
+                feeDisplay.style.color = "#ff0000";
+                dynamicLabel.innerText = "App Name / Type?";
+                dynamicInput.placeholder = "E.g. Earning App";
+                dynamicInput.type = "text";
+            }
+            // 3. Email
+            else if (service === "Adsterra Account" || service === "Gmail Account") {
+                dynamicLabel.innerText = "কোন Gmail দিয়ে একাউন্ট খুলবেন?";
+                dynamicInput.placeholder = "Enter Gmail address";
+                dynamicInput.type = "email";
+            }
+            // 4. Default
+            else {
+                dynamicLabel.innerText = "Target Number / Info?";
+                dynamicInput.placeholder = "Enter Number or Info";
+                dynamicInput.type = "text";
+            }
+            
+            dynamicInput.focus();
+        }
+
+        // Preview Image
+        function previewImage() {
+            const file = document.getElementById('photo').files[0];
+            if(file) {
+                document.getElementById('up-text').innerText = "Selected: " + file.name;
+                document.getElementById('up-text').style.color = "#ff0000";
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('preview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+                document.getElementById('uploadBox').style.borderColor = "#444";
+            }
+        }
+
+        // Show Toast
+        function showToast() {
+            var x = document.getElementById("toast");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+
+        // Submit Handler
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            const msgDiv = document.getElementById('success-msg');
+            const formDiv = document.getElementById('regForm');
+            const fileInput = document.getElementById('photo');
+
+            // Validation
+            let hasError = false;
+            const fields = ['serviceType', 'tgUser', 'userName', 'feeSender', 'trx'];
+            
+            // Validate dynamic input if visible
+            const targetSection = document.getElementById('targetNumberSection');
+            const dynamicInput = document.getElementById('dynamicInput');
+            if(targetSection.style.display === "block") {
+                if(dynamicInput.value.trim() === "") {
+                    dynamicInput.classList.add('error-border');
+                    hasError = true;
+                }
+            }
+
+            // Validate recovery input if visible
+            const recoverySection = document.getElementById('recoveryNumberSection');
+            const recoveryInput = document.getElementById('recoveryInput');
+            if(recoverySection.style.display === "block") {
+                if(recoveryInput.value.trim() === "") {
+                    recoveryInput.classList.add('error-border');
+                    hasError = true;
+                }
+            }
+
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (id === 'trx') {
+                    const wrapper = document.getElementById('trxBox');
+                    if(el.value.trim() === "") { wrapper.style.borderColor = "red"; hasError = true; } 
+                    else { wrapper.style.borderColor = "#444"; }
+                } else {
+                    if (el.value.trim() === "") { el.classList.add('error-border'); hasError = true; } 
+                    else { el.classList.remove('error-border'); }
+                }
+            });
+
+            const uploadBox = document.getElementById('uploadBox');
+            if (fileInput.files.length === 0) {
+                uploadBox.style.borderColor = "red";
+                hasError = true;
+            } else {
+                uploadBox.style.borderColor = "#444";
+            }
+
+            if (hasError) {
+                alert("সবগুলো তথ্য পূরণ করুন এবং স্ক্রিনশট দিন!");
+                return;
+            }
+
+            // Processing
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+
+            // Data Collection
+            const serviceType = document.getElementById('serviceType').value;
+            const targetInfo = (targetSection.style.display === "block") ? document.getElementById('dynamicInput').value : "N/A (Others)";
+            const dynamicLabelText = (targetSection.style.display === "block") ? document.getElementById('dynamicLabel').innerText : "Details";
+            const recoveryNum = (recoverySection.style.display === "block") ? document.getElementById('recoveryInput').value : "";
+            
+            const userMsg = document.getElementById('userMsg').value;
+            let tgUser = document.getElementById('tgUser').value;
+            const userName = document.getElementById('userName').value;
+            const feeSender = document.getElementById('feeSender').value;
+            const trx = document.getElementById('trx').value;
+
+            // Date & Time
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB');
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: true });
+
+            // Telegram Link
+            tgUser = tgUser.replace('@', '');
+            let replyLink = `[Click to Reply](t.me/${tgUser})`;
+
+            // DYNAMIC CAPTION
+            let targetLine = "";
+            if (serviceType !== "Others") {
+                targetLine = `🎯 *${dynamicLabelText}* \`${targetInfo}\`\n`;
+            }
+            
+            // Add Recovery Number Line if exists
+            let recoveryLine = "";
+            if (serviceType === "Bkash Spam Recovery") {
+                targetLine = `⚠️ *Stolen From:* \`${targetInfo}\`\n`; // Override label for better readability
+                recoveryLine = `📥 *Receive Money:* \`${recoveryNum}\`\n`;
+            }
+
+            const caption = `🔴 *NEW ${serviceType.toUpperCase()} REQUEST*\n\n` +
+                            `📅 *Date:* ${dateStr}\n` +
+                            `⏰ *Time:* ${timeStr}\n` +
+                            `------------------------------\n` +
+                            `🛠 *Service:* ${serviceType}\n` +
+                            targetLine +
+                            recoveryLine +
+                            `✈️ *Telegram:* ${replyLink}\n` + 
+                            `💬 *Desc:* ${userMsg ? userMsg : "No message"}\n` +
+                            `------------------------------\n` +
+                            `👤 *Name:* ${userName}\n` +
+                            `💰 *Fee:* ${currentFee} Tk\n` +
+                            `📱 *Sender:* \`${feeSender}\`\n` +
+                            `🧾 *TrxID:* \`${trx}\`\n\n` +
+                            `📸 *Proof Attached Below* 👇`;
+
+            const formData = new FormData();
+            formData.append("chat_id", CHAT_ID);
+            formData.append("photo", fileInput.files[0]);
+            formData.append("caption", caption);
+            formData.append("parse_mode", "Markdown");
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok) {
+                    formDiv.style.display = 'none';
+                    msgDiv.style.display = 'block';
+                    showToast();
+                } else {
+                    alert("System Error! Try again.");
+                    btn.innerHTML = "SUBMIT REQUEST";
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
+                }
+            })
+            .catch(error => {
+                alert("Network Error!");
+                btn.innerHTML = "SUBMIT REQUEST";
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            });
+        });
+
+        document.querySelectorAll('input, textarea, select').forEach(item => {
+            item.addEventListener('input', event => {
+                if(event.target.value.trim() !== "") {
+                    event.target.classList.remove('error-border');
+                    if(event.target.id === 'trx') document.getElementById('trxBox').style.borderColor = "#e2136e";
+                }
+            })
+        });
+
+        function resetForm() {
+            document.getElementById('success-msg').style.display = 'none';
+            document.getElementById('regForm').style.display = 'block';
+            document.getElementById('regForm').reset();
+            document.getElementById('targetNumberSection').style.display = "none";
+            document.getElementById('recoveryNumberSection').style.display = "none";
+            document.getElementById('preview').style.display = 'none';
+            document.getElementById('preview').src = "";
+            document.getElementById('up-text').innerText = "টাকা পাঠানোর স্ক্রিনশট দিন এই খানে";
+            document.getElementById('up-text').style.color = "#fff";
+            document.getElementById('uploadBox').style.borderColor = "#444";
+            document.getElementById('trxBox').style.borderColor = "#444";
+            document.getElementById('displayFee').innerText = "50.00 ৳";
+            document.getElementById('displayFee').style.color = "white";
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = "SUBMIT REQUEST";
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }
+    </script>
+
+</body>
+</html>
